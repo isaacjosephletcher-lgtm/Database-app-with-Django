@@ -305,3 +305,20 @@ class VisitProcedure(models.Model):
         managed = False
         db_table = 'visit_procedure'
         unique_together = (('visit', 'procedure', 'performed_at'),)
+
+class CareNote(models.Model):
+    patient = models.ForeignKey(
+        'Patient',              # replace 'Patient' with whatever your actual Patient model is named
+        on_delete=models.CASCADE
+    )
+    note_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    follow_up_date = models.DateField(null=True, blank=True)  # optional
+    resolved = models.BooleanField(default=False)
+    
+    class Meta:
+        managed = True        # Django owns this table
+        db_table = 'care_note'  # optional, controls the exact table name in Supabase
+
+    def __str__(self):
+        return f"Note for {self.patient} on {self.created_at}"

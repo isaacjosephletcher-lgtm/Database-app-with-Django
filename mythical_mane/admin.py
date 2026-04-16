@@ -15,7 +15,9 @@ from .models import (
 	Visit,
 	VisitDiagnosis,
 	VisitProcedure,
+	CareNote,
 )
+
 
 
 @admin.register(Universe)
@@ -147,3 +149,8 @@ class PaymentAdmin(admin.ModelAdmin):
 	search_fields = ("invoice__visit__patient__name", "payment_method")
 	list_filter = ("payment_method", "payment_date")
 	date_hierarchy = "payment_date"
+
+@admin.register(CareNote)
+class CareNoteAdmin(admin.ModelAdmin):
+    list_display = ['patient', 'created_at', 'resolved', 'follow_up_date']
+    list_filter = ['resolved']
